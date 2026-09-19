@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Employee Management Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Employee Dashboard</h1>
+    <button id="add-employee-btn" class="btn btn-primary">+ Add Employee</button>
+  </header>
+
+  <main class="container">
+    <!-- Controls Toolbar -->
+    <section class="toolbar">
+      <input type="text" id="search-input" placeholder="Search by name, email, or role..." />
+      <select id="filter-dept">
+        <option value="">All Departments</option>
+        <option value="Engineering">Engineering</option>
+        <option value="HR">HR</option>
+        <option value="Operations">Operations</option>
+        <option value="Finance">Finance</option>
+      </select>
+      <select id="sort-select">
+        <option value="name-asc">Sort: Name (A-Z)</option>
+        <option value="name-desc">Sort: Name (Z-A)</option>
+        <option value="salary-desc">Sort: Highest Salary</option>
+        <option value="salary-asc">Sort: Lowest Salary</option>
+      </select>
+    </section>
+
+    <!-- Metrics Strip -->
+    <section class="metrics">
+      <div class="card"><span class="label">Total Employees:</span> <strong id="total-count">0</strong></div>
+      <div class="card"><span class="label">Average Salary:</span> <strong id="avg-salary">₹0</strong></div>
+    </section>
+
+    <!-- Employee Table -->
+    <section class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Department</th>
+            <th>Role</th>
+            <th>Salary</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="employee-tbody"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <!-- Add/Edit Employee Modal -->
+  <dialog id="form-modal">
+    <form id="employee-form" method="dialog">
+      <h3 id="form-title">Add New Employee</h3>
+      <input type="hidden" id="form-id" />
+      
+      <label for="form-name">Full Name</label>
+      <input type="text" id="form-name" required />
+
+      <label for="form-email">Email Address</label>
+      <input type="email" id="form-email" required />
+
+      <label for="form-department">Department</label>
+      <select id="form-department" required>
+        <option value="Engineering">Engineering</option>
+        <option value="HR">HR</option>
+        <option value="Operations">Operations</option>
+        <option value="Finance">Finance</option>
+      </select>
+
+      <label for="form-role">Role</label>
+      <input type="text" id="form-role" required />
+
+      <label for="form-salary">Salary (₹)</label>
+      <input type="number" id="form-salary" min="10000" step="1000" required />
+
+      <div class="modal-actions">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="button" id="form-cancel-btn" class="btn btn-secondary">Cancel</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Details Modal -->
+  <dialog id="details-modal">
+    <div class="details-card">
+      <h3>Employee Details</h3>
+      <div id="details-body"></div>
+      <button type="button" id="details-close-btn" class="btn btn-secondary">Close</button>
+    </div>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+[
+    { "id": 1, "name": "Aditi Verma", "email": "aditi.v@example.com", "department": "Engineering", "role": "Full Stack Engineer", "salary": 85000 },
+    { "id": 2, "name": "Rajesh Kumar", "email": "rajesh.k@example.com", "department": "Operations", "role": "Operations Manager", "salary": 72000 },
+    { "id": 3, "name": "Meera Joshi", "email": "meera.j@example.com", "department": "HR", "role": "HR Generalist", "salary": 58000 },
+    { "id": 4, "name": "Karan Shah", "email": "karan.s@example.com", "department": "Engineering", "role": "Frontend Developer", "salary": 65000 },
+    { "id": 5, "name": "Ananya Sen", "email": "ananya.s@example.com", "department": "Finance", "role": "Financial Analyst", "salary": 69000 }
+  ]
