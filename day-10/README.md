@@ -1,2 +1,2 @@
 ## Live Demo
-* **Frontend Dashboard:** [https://hygiene-dashboard.onrender.com/api/predict](https://hygiene-dashboard.onrender.com/api/predict)
+* **Frontend Dashboard:** [https://hygiene-dashboard.onrender.com](https://hygiene-dashboard.onrender.com)
