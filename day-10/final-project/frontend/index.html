@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Hygiene Predictor</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f4f6f8; padding: 2rem; }
+    .container { max-width: 600px; margin: auto; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    h1 { margin-top: 0; color: #1e293b; }
+    .form-group { margin-bottom: 1rem; }
+    label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
+    input { width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px; box-sizing: border-box; }
+    button { width: 100%; padding: 0.75rem; background: #2563eb; color: white; border: none; border-radius: 4px; font-size: 1rem; cursor: pointer; margin-top: 1rem; }
+    button:hover { background: #1d4ed8; }
+    #result-box { margin-top: 2rem; padding: 1rem; border-radius: 4px; display: none; font-size: 1.2rem; font-weight: bold; text-align: center; }
+    .high-risk { background: #fee2e2; color: #991b1b; border: 1px solid #f87171; }
+    .low-risk { background: #dcfce3; color: #166534; border: 1px solid #4ade80; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Hygiene Risk Predictor</h1>
+    <p>Enter the facility metrics below to predict the current hygiene risk level.</p>
+    
+    <form id="prediction-form">
+      <div class="form-group">
+        <label>Cleanliness Score (0 - 10)</label>
+        <input type="number" id="cleanliness" step="0.1" required value="4.5">
+      </div>
+      <div class="form-group">
+        <label>Odor Score (0 - 10)</label>
+        <input type="number" id="odor" step="0.1" required value="6.8">
+      </div>
+      <div class="form-group">
+        <label>Waste Level (%)</label>
+        <input type="number" id="waste" step="1" required value="75">
+      </div>
+      <div class="form-group">
+        <label>Number of Complaints</label>
+        <input type="number" id="complaints" required value="6">
+      </div>
+      <div class="form-group">
+        <label>Daily Footfall</label>
+        <input type="number" id="footfall" required value="450">
+      </div>
+      <div class="form-group">
+        <label>Hours Since Last Cleaning</label>
+        <input type="number" id="hours" step="0.5" required value="12.5">
+      </div>
+      
+      <button type="submit">Predict Risk Level</button>
+    </form>
+
+    <div id="result-box"></div>
+  </div>
+
+  <script>
+    document.getElementById('prediction-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      // 1. Gather data from the form
+      const payload = {
+        cleanliness_score: parseFloat(document.getElementById('cleanliness').value),
+        odor_score: parseFloat(document.getElementById('odor').value),
+        waste_level: parseFloat(document.getElementById('waste').value),
+        complaints: parseFloat(document.getElementById('complaints').value),
+        footfall: parseFloat(document.getElementById('footfall').value),
+        hours_since_cleaning: parseFloat(document.getElementById('hours').value)
+      };
+
+      const resultBox = document.getElementById('result-box');
+      resultBox.style.display = 'block';
+      resultBox.textContent = "Analyzing...";
+      resultBox.className = ''; 
+
+      try {
+        // 2. Send data to your Flask API
+        const response = await fetch('http://127.0.0.1:5000/api/predict', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+
+        // 3. Display the prediction
+        if (data.success) {
+          resultBox.textContent = `Predicted Risk: ${data.prediction}`;
+          resultBox.className = data.prediction.toLowerCase() === 'high' ? 'high-risk' : 'low-risk';
+        } else {
+          resultBox.textContent = `Error: ${data.error}`;
+        }
+      } catch (err) {
+        resultBox.textContent = "Connection Error. Is your Flask API running?";
+      }
+    });
+  </script>
+</body>
+</html>
